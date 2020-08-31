@@ -65,6 +65,7 @@ passport.serializeUser(user.serializeUser());
 passport.deserializeUser(user.deserializeUser());
 passport.use(new localStrategy(user.authenticate()));
 
+
 app.use(indexRoutes);
 
 //=========================================================================================================
@@ -74,4 +75,4 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 
 
-setInterval(intervalFunc, 15000);//funtion call which checks after every 150 seconds
+setInterval(intervalFunc, 15000);//funtion call which checks after every 150 second
