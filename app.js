@@ -8,6 +8,9 @@ var passport = require("passport");
 var bodyParser = require("body-parser");
 var localStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
+var ticket = require("./models/ticket");
+var app = express();
+var indexRoutes = require("./routes/index");
 
 //Funtion For deleting the expired tickets
 function intervalFunc() {
