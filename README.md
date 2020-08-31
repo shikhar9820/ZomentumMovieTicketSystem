@@ -22,7 +22,7 @@ Your application should run on port 3000 with the *development* environment conf
 * Switch to master branch.
 * Setup mongoDb databse on your system
 * Set up nodejs environment 
-* To build the project ,give command "nodemon app.js" on terminal.
+* To build the project ,give command " nodemon app.js " on terminal.
 
 ### Bussiness cases covered in the project
 * An endpoint to book a ticket using a user’s name, phone number, and timings.
