@@ -2,23 +2,31 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var ticket = require("../models/ticket");
-
+//Route to a form for new entry 
 router.get("/", function (req, res) {
 
     res.render("test");
 });
+//Route to a form for updating the date of the ticket 
 router.get("/edit", function (req, res) {
     res.render("test1");
 });
+
+//Route to a form for deleting a specific entry 
 router.get("/delete", function (req, res) {
 
     res.render("test2");
 });
 
+//Route to a form for getting  entries date-wise 
 router.get("/getEntries", function (req, res) {
 
     res.render("test3");
 });
+
+//
+
+//endpoint to get ticket as per the mentioned date
 router.post("/ticketByTime", function (req, res) {
     var time = req.body.time;
     console.log(req.body);
@@ -29,12 +37,12 @@ router.post("/ticketByTime", function (req, res) {
             console.log(err);
         }
         else {
-            console.log("hi");
-            console.log(ticketByDate);
             res.send(ticketByDate);
         }
     });
 });
+
+//endpoint to get user with specific ID
 router.get("/user/:id", function (req, res) {
     ticket.findById(req.params.id, function (err, tickets) {
         if (err) {
@@ -47,7 +55,7 @@ router.get("/user/:id", function (req, res) {
         }
     });
 });
-
+//endpoint to make an entry of a ticket
 router.post("/login", function (req, res) {
     var users = req.body.username;
     var mobile = req.body.MobileNo;
@@ -64,7 +72,7 @@ router.post("/login", function (req, res) {
         else if (count <= 20) {
             ticket.create(newTicket, function (err, tickets) {
                 if (err) {
-                    console.log(err);
+                    console.log("ERROR");
                 }
                 else {
                     console.log("Successfully Created");
@@ -77,15 +85,13 @@ router.post("/login", function (req, res) {
 
     });
 });
-
+//endpoint to edit the date
 router.put("/edit", function (req, res) {
     var time = req.body.time;
     var dates = req.body.date + "T" + time + ":00";
-    console.log(req.body.ticketId);
-    console.log(dates);
     ticket.findByIdAndUpdate(req.body.ticketId, { time: dates }, function (err, update) {
         if (err) {
-            console.log(err);
+            console.log("ERROR");
         }
         else {
             res.redirect("/");
@@ -94,7 +100,7 @@ router.put("/edit", function (req, res) {
 
 });
 
-
+//endpoint to delete it via ticketID
 router.delete("/delete", function (req, res) {
 
     ticket.findByIdAndDelete(req.params.id, function (err) {

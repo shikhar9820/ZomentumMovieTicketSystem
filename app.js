@@ -9,6 +9,30 @@ var bodyParser = require("body-parser");
 var localStrategy = require("passport-local");
 var passportLocalMongoose = require("passport-local-mongoose");
 
+//Funtion For deleting the expired tickets
+function intervalFunc() {
+    ticket.find({}, function (err, tickets) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log(tickets);
+            tickets.forEach(function (Ticket) {
+                console.log(Ticket);
+                var Difference = Math.abs(new Date().getTime() - Ticket.time.getTime());
+                var Hours = Math.ceil(Difference / (1000 * 3600));
+                if (Hours > 8) {
+                    ticket.findByIdAndDelete(Ticket._id, function (err) {
+                        if (err) console.log(err);
+                        console.log("Successful deletion");
+                    });
+
+                }
+            })
+        }
+    });
+}
+
 //=======================//
 //Mongoose configurations//
 //=======================//
@@ -47,4 +71,7 @@ app.use(indexRoutes);
 
 const port = 3000;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-setInterval(intervalFunc, 150000);
+
+
+
+setInterval(intervalFunc, 15000);//funtion call which checks after every 150 seconds
