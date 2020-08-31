@@ -10,4 +10,4 @@ var ticketSchema = new mongoose.Schema({
 
 ticketSchema.plugin(passportLocalMongoose);
 
-module.exports = mongoose.model("ticket", ticketSchema);
+module.exports = mongoose.model("ticket",ticketSchema);
