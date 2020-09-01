@@ -4,7 +4,6 @@ var passport = require("passport");
 var ticket = require("../models/ticket");
 //Route to a form for new entry 
 router.get("/", function (req, res) {
-
     res.render("test");
 });
 //Route to a form for updating the date of the ticket 
@@ -32,7 +31,7 @@ router.post("/ticketByTime", function (req, res) {
     console.log(req.body);
     var dates = req.body.date + "T" + time + ":00";
     console.log(dates);
-    ticket.find({time: dates}, function (err, ticketByDate) {
+    ticket.find({ time: dates }, function (err, ticketByDate) {
         if (err) {
             console.log(err);
         }
@@ -43,7 +42,7 @@ router.post("/ticketByTime", function (req, res) {
 });
 
 //endpoint to get user with specific ID
-router.get("/user/:id", function (req, res) {
+router.get("/user/:id", function(req,res){
     ticket.findById(req.params.id, function (err, tickets) {
         if (err) {
             console.log("Error");
@@ -66,22 +65,25 @@ router.post("/login", function (req, res) {
     console.log(Date.parse(dates));
     var newTicket = { userId: { username: users, phoneNo: mobile }, flag: true, time: dates };
 
-    ticket.count({ time: dates }, function (err, count) {
+    ticket.count({ time: dates }, function (err, counter) {
+        console.log(counter);
+
         if (err) {
             console.log("error");
         }
-        else if (count <= 20) {
+
+        else if (counter <= 20) {
             ticket.create(newTicket, function (err, tickets) {
                 if (err) {
-                    console.log("ERROR");
+                    console.log(err);
                 }
                 else {
-                    console.log("Successfully Created");
+                    res.redirect("/");
                 }
             });
         }
 
-        res.redirect("/");
+       
 
 
     });
@@ -104,9 +106,10 @@ router.put("/edit", function (req, res) {
 //endpoint to delete it via ticketID
 router.delete("/delete", function (req, res) {
 
-    ticket.findByIdAndDelete(req.params.id, function (err) {
+    ticket.findByIdAndDelete(req.body.ticketId, function (err) {
         if (err) console.log(err);
         console.log("Successful deletion");
+        res.redirect("/");
     });
 
 
